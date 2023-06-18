@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage';
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: { items: [] },
+  initialState: { items: [], isLoading: false, error: null },
 
   reducers: {
     addContacts: (state, { payload }) => {
