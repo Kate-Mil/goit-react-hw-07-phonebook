@@ -3,19 +3,8 @@ import React from 'react';
 import ContactList from './ContactList/ContactList';
 import ContactForm from './ContactForm/ContactForm';
 import Filer from './Filter/Filter';
-import { getContacts } from 'services/getContacts-api';
 
 export default function App() {
-  const fetchData = async () => {
-    try {
-      const data = await getContacts();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  fetchData();
-
   return (
     <div style={{ paddingLeft: 15 }}>
       <h1 className="contact_title">Phonebook</h1>

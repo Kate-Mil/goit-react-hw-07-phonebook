@@ -25,6 +25,7 @@ export default function ContactList() {
     );
   };
   const visibleContacts = getVisibleContacts();
+  console.log(visibleContacts);
 
   if (!visibleContacts.length) return null;
 
