@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectContacts,
   selectFilter,
-  getContactsThunk,
-  deleteContactThunk,
+  fetchContacts,
+  deleteContact,
 } from '../../redux';
 import { useEffect } from 'react';
 
@@ -15,7 +15,7 @@ export default function ContactList() {
   const filter = useSelector(selectFilter);
 
   useEffect(() => {
-    dispatch(getContactsThunk());
+    dispatch(fetchContacts());
   }, [dispatch]);
 
   const getVisibleContacts = () => {
@@ -36,7 +36,7 @@ export default function ContactList() {
           key={id}
           name={name}
           number={number}
-          onDeleteContact={() => dispatch(deleteContactThunk(id))}
+          onDeleteContact={() => dispatch(deleteContact(id))}
         />
       ))}
     </ul>

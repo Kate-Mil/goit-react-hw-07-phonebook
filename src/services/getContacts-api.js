@@ -12,7 +12,7 @@ export const postContact = async ({ name, number }) => {
   return response.data;
 };
 
-export const deleteContact = async id => {
+export const delContact = async id => {
   const response = await axios.delete(`/contacts/${id}`);
   return response.data;
 };
