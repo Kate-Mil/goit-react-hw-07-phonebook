@@ -1,12 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
-import persistReducer from 'redux-persist/es/persistReducer';
+import { getContactsThunk } from './index';
 
-import storage from 'redux-persist/lib/storage';
+const handlePending = state => {
+  state.isLoading = true;
+  state.error = null;
+};
 
-const contactsSlice = createSlice({
+const handleFulfilled = (state, { payload }) => {
+  state.items = payload;
+  state.isLoading = false;
+};
+
+const handleRejected = (state, { payload }) => {
+  state.isLoading = false;
+  state.error = payload;
+};
+
+export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: { items: [], isLoading: false, error: null },
-
+  extraReducers: builder => {
+    builder
+      // .addCase(getContactsThunk.pending, handlePending)
+      .addCase(getContactsThunk.fulfilled, handleFulfilled)
+      // .addCase(getContactsThunk.rejected, handleRejected)
+      .addMatcher(action => {
+        action.type.endsWith('/pending');
+      }, handlePending)
+      .addMatcher(action => {
+        action.type.endsWith('/rejected');
+      }, handleRejected);
+  },
   reducers: {
     addContacts: (state, { payload }) => {
       state.items.push(payload);
@@ -16,10 +40,5 @@ const contactsSlice = createSlice({
     },
   },
 });
-
-export const persistedContactsSlice = persistReducer(
-  { key: 'contacts', storage, whitelist: ['items'] },
-  contactsSlice.reducer
-);
 
 export const { addContacts, deleteContact } = contactsSlice.actions;

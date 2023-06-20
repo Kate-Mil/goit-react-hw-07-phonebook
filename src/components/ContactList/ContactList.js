@@ -1,12 +1,22 @@
 import css from './ContactList.module.css';
 import ContactItem from '../ContactItem/ContactItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, selectContacts, selectFilter } from '../../redux';
+import {
+  deleteContact,
+  selectContacts,
+  selectFilter,
+  getContactsThunk,
+} from '../../redux';
+import { useEffect } from 'react';
 
 export default function ContactList() {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
+
+  useEffect(() => {
+    dispatch(getContactsThunk());
+  }, [dispatch]);
 
   const getVisibleContacts = () => {
     const normilizedFilter = filter.toLowerCase();
