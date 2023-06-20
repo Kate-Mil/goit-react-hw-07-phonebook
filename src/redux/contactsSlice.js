@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getContactsThunk, postContactThunk } from './index';
+import {
+  deleteContactThunk,
+  getContactsThunk,
+  postContactThunk,
+} from './index';
 
 const handlePending = state => {
   state.isLoading = true;
@@ -17,7 +21,11 @@ const handleRejected = (state, { payload }) => {
 };
 
 const addContacts = (state, { payload }) => {
-  state.items.push(payload);
+  // state.items.push(payload);
+  state.items = [payload, ...state.items]; // чтобы записывалось вначале списка
+};
+const deleteContact = (state, { payload }) => {
+  state.items = state.items.filter(contact => contact.id !== payload.id);
 };
 
 export const contactsSlice = createSlice({
@@ -27,6 +35,7 @@ export const contactsSlice = createSlice({
     builder
       .addCase(getContactsThunk.fulfilled, handleFulfilled)
       .addCase(postContactThunk.fulfilled, addContacts)
+      .addCase(deleteContactThunk.fulfilled, deleteContact)
       .addMatcher(action => {
         action.type.endsWith('/pending');
       }, handlePending)
@@ -34,11 +43,4 @@ export const contactsSlice = createSlice({
         action.type.endsWith('/rejected');
       }, handleRejected);
   },
-  reducers: {
-    deleteContact: (state, { payload }) => {
-      state.items = state.items.filter(contact => contact.id !== payload);
-    },
-  },
 });
-
-export const { deleteContact } = contactsSlice.actions;

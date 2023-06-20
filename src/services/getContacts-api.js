@@ -7,28 +7,12 @@ export const getContacts = async () => {
   return response.data;
 };
 
-// export const postContact = async ({ name, number }) => {
-//   const response = await axios.post(`/contacts`, {
-//     name,
-//     number,
-//   });
-//   return response.data;
-// };
-
-// export const postContact = async ({ name, number }) => {
-//   try {
-//     const response = await axios.post(`/contacts`, {
-//       name,
-//       number,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Ошибка при выполнении запроса:', error);
-//     throw error;
-//   }
-// };
-
 export const postContact = async ({ name, number }) => {
   const response = await axios.post(`/contacts`, { name, number });
+  return response.data;
+};
+
+export const deleteContact = async id => {
+  const response = await axios.delete(`/contacts/${id}`);
   return response.data;
 };
